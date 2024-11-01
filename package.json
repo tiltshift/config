@@ -1,0 +1,16 @@
+{
+  "name": "@tiltshift/config",
+  "version": "2.0.0",
+  "repository": "https://github.com/tiltshift/config.git",
+  "author": "Chris Drackett",
+  "license": "MIT",
+  "files": [
+    "prettier.config.json"
+  ],
+  "exports": {
+    "./prettier": "./prettier.config.json"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3"
+  }
+}
