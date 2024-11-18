@@ -67,6 +67,7 @@ export default tseslint.config(
           alphabetize: { order: 'asc', caseInsensitive: true },
         },
       ],
+      'import/named': 'off',
       'import/namespace': 'off',
       'import/no-unresolved': 'off',
       'import/default': 'off',
