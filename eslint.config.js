@@ -3,8 +3,8 @@ import { fileURLToPath } from 'node:url'
 
 import { FlatCompat } from '@eslint/eslintrc'
 import eslint from '@eslint/js'
-import eslintConfigPrettier from 'eslint-config-prettier'
 import importPlugin from 'eslint-plugin-import'
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import reactPlugin from 'eslint-plugin-react'
 import hooksPlugin from 'eslint-plugin-react-hooks'
 import tseslint from 'typescript-eslint'
@@ -22,7 +22,7 @@ export default tseslint.config(
   reactPlugin.configs.flat.recommended,
   importPlugin.flatConfigs.recommended,
   ...tseslint.configs.recommended,
-  eslintConfigPrettier,
+  eslintPluginPrettierRecommended,
 
   // yet to be updated, also not currently working
   // ...compat.extends('plugin:valtio/recommended'),
