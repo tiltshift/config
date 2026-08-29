@@ -1,0 +1,7 @@
+# Default Owner
+* @tiltshift/admin
+
+# Admins own critical files
+.github/CODEOWNERS @tiltshift/admin
+.github/workflows/* @tiltshift/admin
+.github/workflow-proposals/* @tiltshift/admin
