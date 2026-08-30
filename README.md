@@ -24,8 +24,8 @@ Add a `biome.json` to your repo that extends the shared base:
 }
 ```
 
-The base carries formatter, linter, and import-organizing defaults only. Add
-project-specific `files.includes` and `vcs` overrides in your own config.
+The base carries the formatter, linter, import-organizing, `vcs`, and `React`
+global defaults. Add project-specific `files.includes` in your own config.
 
 ## TypeScript
 
