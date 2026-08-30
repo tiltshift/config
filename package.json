@@ -1,43 +1,23 @@
 {
   "name": "@tiltshift/config",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "repository": "https://github.com/tiltshift/config.git",
   "author": "Chris Drackett",
   "license": "MIT",
   "files": [
     "biome.json",
-    "tsconfig.base.json",
-    "prettier.config.json",
-    "eslint.config.js"
+    "tsconfig.base.json"
   ],
   "exports": {
     "./biome": "./biome.json",
-    "./tsconfig": "./tsconfig.base.json",
-    "./prettier": "./prettier.config.json",
-    "./eslint": "./eslint.config.js"
+    "./tsconfig": "./tsconfig.base.json"
   },
   "type": "module",
-  "devDependencies": {
-    "@eslint/eslintrc": "^3.1.0",
-    "@eslint/js": "^9.14.0",
-    "@typescript-eslint/eslint-plugin": "^8.12.2",
-    "@typescript-eslint/parser": "^8.12.2",
-    "eslint": "^9.14.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-prettier": "^5.5.3",
-    "eslint-plugin-react": "^7.37.2",
-    "eslint-plugin-react-hooks": "^5.1.0-rc-7c8e5e7a-20241101",
-    "eslint-plugin-valtio": "^0.6.4",
-    "prettier": "^3.6.2",
-    "typescript-eslint": "^8.12.2"
-  },
   "dependencies": {
     "typescript": "^5.6.3"
   },
   "volta": {
     "node": "22.11.0",
     "yarn": "4.5.1"
-  },
-  "prettier": "./prettier.config.json"
+  }
 }
