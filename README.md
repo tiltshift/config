@@ -6,6 +6,7 @@ Shared configuration for Tilt/Shift TypeScript projects.
 
 - [Biome](https://biomejs.dev/) — lint + format
 - [TypeScript](https://www.typescriptlang.org/) — shared base `tsconfig`
+- [cspell](https://cspell.org/) — shared spelling dictionary
 
 ## Installation
 
@@ -40,3 +41,19 @@ Extend the shared base from your root `tsconfig.json`:
 Each app or package extends the repo root and overrides only what its platform
 needs — JSX for web, module settings for React Native/Expo, node types for
 servers. Overrides are the exception.
+
+## cspell
+
+Import the shared dictionary from your repo's `cspell` config:
+
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "version": "0.2",
+  "import": ["@tiltshift/config/cspell"]
+}
+```
+
+The shared config defines the `tiltshift` dictionary — org, product, and stack
+terms the bundled dictionaries miss. Add project-specific words to your own
+config or a repo-local word list, and add a `cspell` dev dependency to run it.
