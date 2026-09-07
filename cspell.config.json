@@ -4,7 +4,7 @@
 	"dictionaryDefinitions": [
 		{
 			"name": "tiltshift",
-			"path": "./tiltshift.txt",
+			"path": "./dictionary.txt",
 			"addWords": true
 		}
 	],
