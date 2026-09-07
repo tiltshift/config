@@ -1,0 +1,10 @@
+# Shared Tilt/Shift dictionary: One word per line; case-insensitive.
+tiltshift
+drackett
+codeglue
+paradigm
+biome
+tsconfig
+vitest
+volta
+monorepo
