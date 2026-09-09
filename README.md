@@ -28,6 +28,34 @@ Add a `biome.json` to your repo that extends the shared base:
 The base carries the formatter, linter, import-organizing, `vcs`, and `React`
 global defaults. Add project-specific `files.includes` in your own config.
 
+### Fleet dry runs
+
+Create a gitignored `.dry-run-repos` file in this repository with one checkout
+path per line. Paths can be absolute, start with `~/`, or be relative to this
+repository. Blank lines and lines that start with `#` are ignored.
+
+```text
+../code-glue
+/path/to/chat-builder
+```
+
+Count diagnostics from one rule in every checkout:
+
+```bash
+yarn dry-run correctness/noUnusedVariables
+```
+
+Pass `all` to lint every checkout with this package's `biome.json`. Add
+`--markdown` to print a table ready for a pull request body:
+
+```bash
+yarn dry-run all --markdown
+```
+
+The script exits with an error if a listed checkout is missing or Biome cannot
+produce a JSON lint report there. A lint run that finds diagnostics still
+succeeds and reports their count.
+
 ## TypeScript
 
 Extend the shared base from your root `tsconfig.json`:
