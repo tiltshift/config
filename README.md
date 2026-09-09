@@ -33,18 +33,24 @@ other `linter.rules` in a consumer; change this base instead.
 Every `biome-ignore` suppression must include a reason. CI must run
 `biome ci --error-on-warnings`, so warnings and errors both block a change.
 
-### Plugin limits
+### Biome plugins
 
-Biome 2.5.12 resolves a relative `plugins` path from the consumer repo, even
-when an extended config under `node_modules` provides the entry. A plugin
-shipped inside this package therefore does not load through `extends`, so the
-base does not register plugins.
+This package does not currently ship any Biome plugins. Biome 2.5.12 resolves a
+relative `plugins` path from the consumer repo, even when an extended config
+under `node_modules` provides the entry. If this package adds a plugin later,
+the package must include its GritQL file and each consumer must register that
+installed file explicitly in its own `plugins` array. Extending the base cannot
+activate it.
 
 GritQL plugins cannot inspect comment trivia in Biome 2.5.12. Enforcing the ban
 on Linear issue IDs such as `TS-123` in source comments remains a CI script
 item, not a Biome plugin.
 
-### Add a lint rule
+### Change the shared lint policy
+
+Keep this maintenance workflow with the shared config it governs. A consumer
+template may direct contributors here, but it cannot own the fleet dry run,
+package release, or suppression policy for existing repositories.
 
 1. When a review catches something a machine could catch, file a TS issue with
    the `config` label. Link the review comment and include the code snippet and
