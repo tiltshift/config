@@ -26,6 +26,8 @@
 		"yarn": "4.18.0"
 	},
 	"scripts": {
+		"dry-run": "bash scripts/dry-run.sh",
+		"test": "bash scripts/dry-run.test.sh",
 		"lint": "biome check --fix && cspell ."
 	}
 }
