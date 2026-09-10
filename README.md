@@ -26,7 +26,8 @@ Add a `biome.json` to your repo that extends the shared base:
 ```
 
 The base carries the formatter, linter, import-organizing, `vcs`, and `React`
-global defaults. Consumer configs may add only `files.includes`, path-scoped
+global defaults. It opts into the recommended `react`, `test`, and `types`
+domain presets. Consumer configs may add only `files.includes`, path-scoped
 `overrides`, and product-specific `noRestrictedImports`. Do not add or override
 other `linter.rules` in a consumer; change this base instead.
 
