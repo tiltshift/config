@@ -45,16 +45,20 @@ Count diagnostics from one rule in every checkout:
 yarn dry-run correctness/noUnusedVariables
 ```
 
-Pass `all` to lint every checkout with this package's `biome.json`. Add
-`--markdown` to print a table ready for a pull request body:
+Pass `all` to lint every checkout with this package's `biome.json`, honoring
+each checkout's `.gitignore` so build output is not counted. Add `--markdown`
+to print a table ready for a pull request body:
 
 ```bash
 yarn dry-run all --markdown
 ```
 
-The script exits with an error if a listed checkout is missing or Biome cannot
-produce a JSON lint report there. A lint run that finds diagnostics still
-succeeds and reports their count.
+Both modes run this repository's pinned Biome, so counts come from the version
+the shared base targets rather than whatever each checkout resolves.
+
+The script exits with an error if a listed checkout is missing, Biome cannot
+produce a JSON lint report there, or Biome processes no files. A lint run that
+finds diagnostics still succeeds and reports their count.
 
 ## TypeScript
 
