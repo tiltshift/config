@@ -30,7 +30,7 @@
 	},
 	"scripts": {
 		"check": "biome check biome.json",
-		"lint": "biome check --fix && cspell ."
+		"lint": "biome check --fix && cspell .",
 		"dry-run": "bash scripts/dry-run.sh",
 		"test": "bash scripts/dry-run.test.sh"
 	}
