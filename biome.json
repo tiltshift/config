@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.3.11/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.5.12/schema.json",
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
@@ -30,10 +30,58 @@
 	},
 	"linter": {
 		"enabled": true,
+		"domains": {
+			"react": "recommended",
+			"test": "recommended",
+			"types": "recommended"
+		},
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"complexity": {
+				"noExcessiveCognitiveComplexity": {
+					"level": "error",
+					"options": {
+						"maxAllowedComplexity": 15
+					}
+				}
+			},
+			"correctness": {
+				"noUnusedFunctionParameters": "error",
+				"noUnusedImports": "error",
+				"noUnusedPrivateClassMembers": "error",
+				"noUnusedVariables": "error"
+			},
+			"performance": {
+				"noReExportAll": "error"
+			},
+			"style": {
+				"noNonNullAssertion": "error",
+				"useExportType": "error",
+				"useImportType": "error",
+				"useNodejsImportProtocol": "error"
+			},
+			"suspicious": {
+				"noConsole": "error",
+				"noDebugger": "error",
+				"noEmptyBlockStatements": "error",
+				"noExplicitAny": "error",
+				"noFocusedTests": "error",
+				"noSkippedTests": "error"
+			}
 		}
 	},
+	"overrides": [
+		{
+			"includes": ["scripts/**", "bin/**"],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noConsole": "off"
+					}
+				}
+			}
+		}
+	],
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double",
