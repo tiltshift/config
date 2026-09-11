@@ -30,6 +30,12 @@ fi
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 package_dir="$(cd -- "$script_dir/.." && pwd)"
 repos_file="$package_dir/.dry-run-repos"
+biome_bin="$package_dir/node_modules/.bin/biome"
+
+if [[ ! -x "$biome_bin" ]]; then
+	printf 'Missing Biome binary: %s\nRun `yarn install` in %s first.\n' "$biome_bin" "$package_dir" >&2
+	exit 1
+fi
 
 if [[ ! -f "$repos_file" ]]; then
 	printf 'Missing checkout list: %s\n' "$repos_file" >&2
@@ -75,12 +81,12 @@ while IFS= read -r repo_path || [[ -n "$repo_path" ]]; do
 	if [[ "$rule" == "all" ]]; then
 		(
 			cd -- "$repo_path" || exit 1
-			npx biome lint "--config-path=$package_dir/biome.json" --reporter=json --max-diagnostics=none .
+			"$biome_bin" lint "--config-path=$package_dir/biome.json" --vcs-enabled=true --vcs-client-kind=git --vcs-use-ignore-file=true --reporter=json --max-diagnostics=none .
 		) >"$report_file" 2>"$error_file"
 	else
 		(
 			cd -- "$repo_path" || exit 1
-			npx biome lint "--only=$rule" --reporter=json --max-diagnostics=none .
+			"$biome_bin" lint "--only=$rule" --reporter=json --max-diagnostics=none .
 		) >"$report_file" 2>"$error_file"
 	fi
 
@@ -89,12 +95,17 @@ while IFS= read -r repo_path || [[ -n "$repo_path" ]]; do
 		const fs = require("node:fs");
 		const report = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
 		if (report.command !== "lint" || !Array.isArray(report.diagnostics)) process.exit(1);
+		const summary = report.summary || {};
+		if ((summary.changed || 0) + (summary.unchanged || 0) === 0) process.exit(1);
 		process.stdout.write(String(report.diagnostics.length));
 	' "$report_file" 2>/dev/null)"
 	parse_exit=$?
 
 	if [[ $parse_exit -ne 0 ]]; then
 		printf 'Biome failed in %s (exit %s).\n' "$repo_path" "$biome_exit" >&2
+		if [[ -s "$report_file" ]]; then
+			printf 'stdout: %s\n' "$(head -n 1 "$report_file")" >&2
+		fi
 		if [[ -s "$error_file" ]]; then
 			cat "$error_file" >&2
 		fi
