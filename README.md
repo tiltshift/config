@@ -67,6 +67,38 @@ package release, or suppression policy for existing repositories.
 5. Revisit a rule that keeps getting suppressed. Do not accumulate
    suppressions for it.
 
+### Fleet dry runs
+
+Create a gitignored `.dry-run-repos` file in this repository with one checkout
+path per line. Paths can be absolute, start with `~/`, or be relative to this
+repository. Blank lines and lines that start with `#` are ignored.
+
+```text
+../code-glue
+/path/to/chat-builder
+```
+
+Count diagnostics from one rule in every checkout:
+
+```bash
+yarn dry-run correctness/noUnusedVariables
+```
+
+Pass `all` to lint every checkout with this package's `biome.json`, honoring
+each checkout's `.gitignore` so build output is not counted. Add `--markdown`
+to print a table ready for a pull request body:
+
+```bash
+yarn dry-run all --markdown
+```
+
+Both modes run this repository's pinned Biome, so counts come from the version
+the shared base targets rather than whatever each checkout resolves.
+
+The script exits with an error if a listed checkout is missing, Biome cannot
+produce a JSON lint report there, or Biome processes no files. A lint run that
+finds diagnostics still succeeds and reports their count.
+
 ## TypeScript
 
 Extend the shared base from your root `tsconfig.json`:

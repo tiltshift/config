@@ -1,5 +1,6 @@
 node_modules
 .DS_Store
+.dry-run-repos
 
 # Yarn
 .yarn/cache
