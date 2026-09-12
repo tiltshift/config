@@ -11,7 +11,7 @@ Shared configuration for Tilt/Shift TypeScript projects.
 ## Installation
 
 ```bash
-yarn add --dev @tiltshift/config@^4.0.0 @biomejs/biome@2.5.12
+yarn add --dev @tiltshift/config@^4.0.0
 ```
 
 ## Biome
@@ -20,19 +20,10 @@ Add a `biome.json` to your repo that extends the shared base:
 
 ```json
 {
-	"$schema": "https://biomejs.dev/schemas/2.5.12/schema.json",
-	"extends": ["@tiltshift/config/biome"]
+  "$schema": "https://biomejs.dev/schemas/2.5.13/schema.json",
+  "extends": ["@tiltshift/config/biome"]
 }
 ```
-
-The base carries the formatter, linter, import-organizing, `vcs`, and `React`
-global defaults. It opts into the recommended `react`, `test`, and `types`
-domain presets. Consumer configs may add only `files.includes`, path-scoped
-`overrides`, and product-specific `noRestrictedImports`. Do not add or override
-other `linter.rules` in a consumer; change this base instead.
-
-Every `biome-ignore` suppression must include a reason. CI must run
-`biome ci --error-on-warnings`, so warnings and errors both block a change.
 
 ### Biome plugins
 
