@@ -17,11 +17,9 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@biomejs/biome": "2.5.13",
 		"cspell": "10.2.2",
 		"typescript": "7.0.2"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "2.5.12"
 	},
 	"packageManager": "yarn@4.18.0",
 	"volta": {
