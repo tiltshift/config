@@ -8,3 +8,4 @@ tsconfig
 vitest
 volta
 monorepo
+culori
