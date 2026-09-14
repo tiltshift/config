@@ -7,7 +7,7 @@
 	"files": [
 		"biome.json",
 		"cspell.config.json",
-		"tiltshift.txt",
+		"dictionary.txt",
 		"tsconfig.base.json"
 	],
 	"exports": {
