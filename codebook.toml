@@ -1,11 +1,16 @@
+ignore_paths = ["yarn.lock"]
+
 words = [
   "biome",
   "codeglue",
   "culori",
   "drackett",
+  "esac",
   "luxon",
   "monorepo",
   "paradigm",
+  "submodule",
+  "suppressions",
   "tiltshift",
   "tsconfig",
   "vitest",

@@ -26,7 +26,7 @@
 	},
 	"scripts": {
 		"check": "biome check biome.json",
-		"lint": "biome check --fix",
+		"lint": "biome check --fix && codebook-lsp lint .",
 		"dry-run": "bash scripts/dry-run.sh",
 		"test": "bash scripts/dry-run.test.sh"
 	}
