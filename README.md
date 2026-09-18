@@ -6,7 +6,7 @@ Shared configuration for Tilt/Shift TypeScript projects.
 
 - [Biome](https://biomejs.dev/) — lint + format
 - [TypeScript](https://www.typescriptlang.org/) — shared base `tsconfig`
-- [cspell](https://cspell.org/) — shared spelling dictionary
+- [Codebook](https://github.com/blopker/codebook) — shared spelling dictionary
 
 ## Installation
 
@@ -104,18 +104,20 @@ Each app or package extends the repo root and overrides only what its platform
 needs — JSX for web, module settings for React Native/Expo, node types for
 servers. Overrides are the exception.
 
-## cspell
+## Codebook
 
-Import the shared dictionary from your repo's `cspell` config:
+Spell checking in Zed uses [Codebook](<https://github.com/blopker/codebook>). This package ships the shared Tilt/Shift word list as `codebook.toml`. Install the Codebook extension in Zed, then point it at the shared list from your repo's `.zed/settings.json`:
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
-  "version": "0.2",
-  "import": ["@tiltshift/config/cspell"]
+  "lsp": {
+    "codebook": {
+      "initialization_options": {
+        "globalConfigPath": "node_modules/@tiltshift/config/codebook.toml"
+      }
+    }
+  }
 }
 ```
 
-The shared config defines the `tiltshift` dictionary — org, product, and stack
-terms the bundled dictionaries miss. Add project-specific words to your own
-config or a repo-local word list, and add a `cspell` dev dependency to run it.
+Project words go in the repo's own `codebook.toml`; "Add to dictionary" writes there. Do not use "Add to global dictionary" in a repo set up this way, since it would write into `node_modules`. Add org, product, and stack terms to this package instead.
