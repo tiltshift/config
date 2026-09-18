@@ -18,7 +18,7 @@ add the following to your root `package.json`:
 
 ```JSON
 	"workspaces": [
-    ...
+    	...
 		"packages/*"
 	],
 	"resolutions": {
