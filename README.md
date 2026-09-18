@@ -56,6 +56,21 @@ above it unless the path is given explicitly. Consumers need no exclusion:
 their `biome.json` is the single root, and the submodule's files are linted and
 formatted under it in the editor and on the CLI.
 
+### Updates
+
+Add git submodule updates to `.github/dependabot.yml`:
+
+```yaml
+version: 2
+updates:
+  - package-ecosystem: gitsubmodule
+    directory: "/"
+    schedule:
+      interval: weekly
+```
+
+Each submodule bump arrives as a PR, where `yarn check` shows the fallout.
+
 ## Biome
 
 Add a `biome.json` to your repo that extends the shared base:
