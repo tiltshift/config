@@ -26,6 +26,21 @@ add the following to your root `package.json`:
 	},
 ```
 
+### Updates
+
+Add git submodule updates to `.github/dependabot.yml`:
+
+```yaml
+version: 2
+updates:
+  - package-ecosystem: gitsubmodule
+    directory: "/"
+    schedule:
+      interval: weekly
+```
+
+Each submodule bump arrives as a PR, where `yarn check` shows the fallout.
+
 ## Biome
 
 Add a `biome.json` to your repo that extends the shared base:
@@ -65,8 +80,8 @@ package release, or suppression policy for existing repositories.
    bump PR. For a large count, run
    `biome lint --suppress --reason "predates the rule"` in the bump PR so new
    code is held to the rule and the suppressions form the backlog.
-4. Release the config. Dependabot opens the consumer bump PRs, where
-   `yarn check` shows the fallout.
+4. Release the config. With [submodule updates](#updates) configured,
+   Dependabot opens the consumer bump PRs, where `yarn check` shows the fallout.
 5. Revisit a rule that keeps getting suppressed. Do not accumulate
    suppressions for it.
 
