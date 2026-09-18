@@ -10,21 +10,51 @@ Shared configuration for Tilt/Shift TypeScript projects.
 
 ## Installation
 
+1. Add this repo as a submodule:
+
 ```bash
 git submodule add https://github.com/tiltshift/config.git packages/config
 ```
 
-add the following to your root `package.json`:
+2. Add the workspace, resolution, and development dependency to the root
+   `package.json`:
 
-```JSON
+```json
+{
 	"workspaces": [
-    	...
 		"packages/*"
 	],
 	"resolutions": {
 		"@tiltshift/config": "workspace:*"
 	},
+	"devDependencies": {
+		"@tiltshift/config": "workspace:*"
+	}
+}
 ```
+
+3. Install dependencies:
+
+```bash
+yarn install
+```
+
+### Repos that are consumed as submodules
+
+Any repo that other repos add as a submodule, including this one and
+`tiltshift/schema`, does three things:
+
+- Sets `"root": false` in its `biome.json`.
+- Passes `--config-path=biome.json` to every `biome` command in its
+  `package.json` scripts.
+- Commits `.zed/settings.json` with `lsp.biome.settings.config_path` set to
+  `biome.json`.
+
+Biome 2.5 exits with `Found a nested root configuration` when it finds a second
+root config inside a consumer. It also ignores a nested config that has no root
+above it unless the path is given explicitly. Consumers need no exclusion:
+their `biome.json` is the single root, and the submodule's files are linted and
+formatted under it in the editor and on the CLI.
 
 ### Updates
 
@@ -54,12 +84,10 @@ Add a `biome.json` to your repo that extends the shared base:
 
 ### Biome plugins
 
-This package does not currently ship any Biome plugins. Biome 2.5.12 resolves a
-relative `plugins` path from the consumer repo, even when an extended config
-under `node_modules` provides the entry. If this package adds a plugin later,
-the package must include its GritQL file and each consumer must register that
-installed file explicitly in its own `plugins` array. Extending the base cannot
-activate it.
+This package does not currently ship any Biome plugins. The submodule sits at a
+fixed path, so a consumer registers a shared plugin as
+`./packages/config/lint/<name>.grit` in its own `plugins` array. Extending the
+base still cannot activate a plugin.
 
 GritQL plugins cannot inspect comment trivia in Biome 2.5.12. Enforcing the ban
 on Linear issue IDs such as `TS-123` in source comments remains a CI script
@@ -68,54 +96,57 @@ item, not a Biome plugin.
 ### Change the shared lint policy
 
 Keep this maintenance workflow with the shared config it governs. A consumer
-template may direct contributors here, but it cannot own the fleet dry run,
-package release, or suppression policy for existing repositories.
+template may direct contributors here, but it cannot own the Biome rule dry
+run or suppression policy for existing repositories.
 
 1. When a review catches something a machine could catch, file a TS issue with
    the `config` label. Link the review comment and include the code snippet and
    proposed rule.
-2. Add the rule here and put fleet dry-run counts for each repo in the config
-   PR.
+2. Add the rule here and put Biome rule dry-run counts for each repo in the
+   config PR.
 3. For a small count, set the rule to `error` and fix the hits in the consumer
    bump PR. For a large count, run
    `biome lint --suppress --reason "predates the rule"` in the bump PR so new
    code is held to the rule and the suppressions form the backlog.
-4. Release the config. With [submodule updates](#updates) configured,
-   Dependabot opens the consumer bump PRs, where `yarn check` shows the fallout.
+4. Merge the config PR. Dependabot's `gitsubmodule` updates open the consumer
+   bump PRs, where `yarn check` shows the fallout.
 5. Revisit a rule that keeps getting suppressed. Do not accumulate
    suppressions for it.
 
-### Fleet dry runs
+### Biome rule dry runs
 
-Create a gitignored `.dry-run-repos` file in this repository with one checkout
-path per line. Paths can be absolute, start with `~/`, or be relative to this
-repository. Blank lines and lines that start with `#` are ignored.
+A dry run counts what one Biome rule would flag in every Tilt/Shift repo that
+extends this config, before the rule ships. Put the counts in the config PR.
+
+**Set up once.** List the checkouts in a gitignored `.dry-run-repos` file at
+this repo's root, one path per line. Paths can be absolute, start with `~/`,
+or be relative to this repo. Blank lines and `#` comments are skipped.
 
 ```text
 ../code-glue
 /path/to/chat-builder
 ```
 
-Count diagnostics from one rule in every checkout:
+**Count one rule:**
 
 ```bash
 yarn dry-run correctness/noUnusedVariables
 ```
 
-Pass `all` to lint every checkout with this package's `biome.json`, honoring
-each checkout's `.gitignore` so build output is not counted. Add `--markdown`
-to print a table ready for a pull request body:
+**Count every rule in this package's `biome.json`,** printed as a table for
+the PR body:
 
 ```bash
 yarn dry-run all --markdown
 ```
 
-Both modes run this repository's pinned Biome, so counts come from the version
-the shared base targets rather than whatever each checkout resolves.
+Both modes run this repo's pinned Biome, so counts match the base rather than
+whatever each checkout resolves. The `all` mode honors each checkout's
+`.gitignore`, so build output is not counted.
 
-The script exits with an error if a listed checkout is missing, Biome cannot
-produce a JSON lint report there, or Biome processes no files. A lint run that
-finds diagnostics still succeeds and reports their count.
+A run fails if a listed checkout is missing, Biome cannot produce a JSON
+report there, or Biome processes no files. Diagnostics alone do not fail the
+run; they are the count.
 
 ## TypeScript
 
