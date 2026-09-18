@@ -4,11 +4,6 @@
 	"repository": "https://github.com/tiltshift/config.git",
 	"author": "Chris Drackett",
 	"license": "MIT",
-	"files": [
-		"biome.json",
-		"codebook.toml",
-		"tsconfig.base.json"
-	],
 	"exports": {
 		"./biome": "./biome.json",
 		"./codebook": "./codebook.toml",
