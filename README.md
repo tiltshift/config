@@ -11,7 +11,7 @@ Shared configuration for Tilt/Shift TypeScript projects.
 ## Installation
 
 ```bash
-yarn add --dev @tiltshift/config@^4.0.0
+yarn add --dev @tiltshift/config@^5.0.0
 ```
 
 ## Biome
@@ -106,18 +106,33 @@ servers. Overrides are the exception.
 
 ## Codebook
 
-Spell checking in Zed uses [Codebook](<https://github.com/blopker/codebook>). This package ships the shared Tilt/Shift word list as `codebook.toml`. Install the Codebook extension in Zed, then point it at the shared list from your repo's `.zed/settings.json`:
+Spell checking in Zed uses [Codebook](<https://github.com/blopker/codebook>).
+Install the Codebook extension, then add this repository to the project as a
+Git submodule:
+
+```bash
+git submodule add https://github.com/tiltshift/config.git config
+```
+
+Point Codebook at the shared Tilt/Shift word list in the submodule from the
+project's `.zed/settings.json`:
 
 ```json
 {
   "lsp": {
     "codebook": {
       "initialization_options": {
-        "globalConfigPath": "node_modules/@tiltshift/config/codebook.toml"
+        "globalConfigPath": "config/codebook.toml"
       }
     }
   }
 }
 ```
 
-Project words go in the repo's own `codebook.toml`; "Add to dictionary" writes there. Do not use "Add to global dictionary" in a repo set up this way, since it would write into `node_modules`. Add org, product, and stack terms to this package instead.
+Project words go in the project's own `codebook.toml`; "Add to dictionary"
+writes there. "Add to global dictionary" writes shared org, product, and stack
+terms to `codebook.toml` in the submodule; commit those changes in the config
+repository.
+
+Install `codebook-lsp` on `PATH` to include spell checking when `yarn lint`
+runs. On macOS, run `brew install codebook-lsp`.
